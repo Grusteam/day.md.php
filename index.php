@@ -1,6 +1,6 @@
 ﻿<?
 	$title = "DayMd";
-	$cityWeWant = 0;
+	$cityWeWant = 1;
 
 	$citiesId = array(618426, 618605, 618577, 617094, 618365, 618456, 617638, 617486, 617239);
 	$citiesName = array('Kishinev', 'Beltsi', 'Bender', 'Vulkanistsi', 'Dubasari', 'Kagul', 'Orhei', 'Ribnita', 'Tiraspol');
@@ -10,28 +10,24 @@
 
 	$savedData = "data\data.json";
 	$parsedLocalData = json_decode(file_get_contents($savedData), true);
-	$baseTime = $parsedLocalData[1][$cityWeWant];
+	$baseTime = $parsedLocalData[1];
 
 	if (($currentTime - 610) > $baseTime) {
 		$requestUrl = 'http://api.openweathermap.org/data/2.5/forecast/city?id=' . $citiesId[$cityWeWant] . '&units=metric&APPID=077dd80b15fedc5b0d726ad229710dca';
-		// $requestUrl = "data\data2.json";
 		$parsedWebData = json_decode(file_get_contents($requestUrl), true);
 		$currentCity = $parsedWebData["list"];
 
-		// echo $parsedLocalData;
-
 		$parsedLocalData[0][$cityWeWant] = $parsedWebData;
-		$parsedLocalData[1][$cityWeWant] = $currentTime;
+		$parsedLocalData[1] = $currentTime;
 
 		$weWillChangeIt = fopen($savedData, "w");
 		fwrite($weWillChangeIt, json_encode($parsedLocalData));
 		fclose($weWillChangeIt);
 
-
 		echo 'webData';
 	} else {
 		$currentCity = $parsedLocalData[0][$cityWeWant]["list"];
-		echo $parsedLocalData[0][$cityWeWant]["city"]["name"];
+
 		echo 'localData';
 	};
 
