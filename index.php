@@ -1,38 +1,17 @@
 ﻿<?
+
+	echo  substr($_SERVER['REQUEST_URI'], 1, -4);
+
 	$title = "DayMd";
 	$cityWeWant = 1;
 
 	$citiesId = array(618426, 618605, 618577, 617094, 618365, 618456, 617638, 617486, 617239);
 	$citiesName = array('Kishinev', 'Beltsi', 'Bender', 'Vulkanistsi', 'Dubasari', 'Kagul', 'Orhei', 'Ribnita', 'Tiraspol');
 
-
-	$currentTime = time();
-
 	$savedData = "data\data.json";
 	$parsedLocalData = json_decode(file_get_contents($savedData), true);
-	$baseTime = $parsedLocalData[1];
-
-	if (($currentTime - 610) > $baseTime) {
-		$requestUrl = 'http://api.openweathermap.org/data/2.5/forecast/city?id=' . $citiesId[$cityWeWant] . '&units=metric&APPID=077dd80b15fedc5b0d726ad229710dca';
-		$parsedWebData = json_decode(file_get_contents($requestUrl), true);
-		$currentCity = $parsedWebData["list"];
-
-		$parsedLocalData[0][$cityWeWant] = $parsedWebData;
-		$parsedLocalData[1] = $currentTime;
-
-		$weWillChangeIt = fopen($savedData, "w");
-		fwrite($weWillChangeIt, json_encode($parsedLocalData));
-		fclose($weWillChangeIt);
-
-		echo 'webData';
-	} else {
-		$currentCity = $parsedLocalData[0][$cityWeWant]["list"];
-
-		echo 'localData';
-	};
-
-
 	
+	$currentCity = $parsedLocalData[0][$cityWeWant]["list"];
 	
 	$weatherTime = $currentCity[0]['dt'];
 	$datetime = new DateTime();
@@ -297,6 +276,17 @@
 	<link rel="stylesheet" href="styles/styles.css" media="all" />
 </head>
 <body data-weather="sun">
+
+	<a href=<? echo $citiesName[0] ?>><? echo $citiesName[0] ?></a>
+	<a href=<? echo $citiesName[1] ?>><? echo $citiesName[1] ?></a>
+	<a href=<? echo $citiesName[2] ?>><? echo $citiesName[2] ?></a>
+	<a href=<? echo $citiesName[3] ?>><? echo $citiesName[3] ?></a>
+	<a href=<? echo $citiesName[4] ?>><? echo $citiesName[4] ?></a>
+	<a href=<? echo $citiesName[5] ?>><? echo $citiesName[5] ?></a>
+	<a href=<? echo $citiesName[6] ?>><? echo $citiesName[6] ?></a>
+	<a href=<? echo $citiesName[7] ?>><? echo $citiesName[7] ?></a>
+	<a href=<? echo $citiesName[8] ?>><? echo $citiesName[8] ?></a>	
+
 	<svg style="display: none;"><defs>
 		<g id="svg-mark">
 			<path d="M8.305,14.207 C8.303,14.209 8.303,14.210 8.302,14.211 C8.039,14.474 7.695,14.605 7.351,14.605 C7.007,14.605 6.663,14.474 6.400,14.211 L1.177,8.989 C0.651,8.464 0.651,7.613 1.177,7.087 C1.702,6.562 2.552,6.563 3.078,7.087 L7.351,11.359 L17.922,0.789 C18.446,0.264 19.297,0.264 19.822,0.789 C20.348,1.314 20.348,2.165 19.822,2.690 L8.305,14.207 Z"/>
